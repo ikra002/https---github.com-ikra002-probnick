@@ -1,0 +1,65 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Чат</title>
+  <style>
+    #chat {
+      height: 300px;
+      overflow-y: auto;
+    }
+    #messageForm {
+      display: flex;
+    }
+    #messageInput {
+      flex-grow: 1;
+    }
+  </style>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="chat">
+        <div id="messages"></div>
+        <form id="messageForm">
+            <!-- <input id="messageInput" type="text" placeholder="Сообщение"> -->
+            <br>
+            <textarea id="message" class="form-control" placeholder="Сообщение"></textarea>
+            <br>
+            <button id="send" class="btn btn-success">Отправить</button>
+            <!-- <button type="submit">Отправить</button> -->
+        </form>
+    </div>
+  <script src="/chat.js"></script>
+  
+  <script>
+    const socket = io();
+
+    const chatMessages = document.getElementById('chatMessages');
+    const input = document.getElementById('inputBox');
+    const sendButton = document.getElementById('send');
+
+    sendButton.addEventListener('click', () => {
+      const message = input.value;
+      if (message) {
+        socket.emit('chat message', message);
+        input.value = '';
+      }
+    });
+
+    socket.on('chat message', (msg) => {
+      const li = document.createElement('li');
+      li.innerHTML = msg;
+      messages.appendChild(li);
+    });
+
+
+  </script>
+  <script src="/index.js"></script>
+</body>
+</html>
